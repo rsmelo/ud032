@@ -14,23 +14,39 @@ DATAFILE = "beatles-diskography.csv"
 
 
 def parse_file(datafile):
+    """this method reads a csv file and return a list o f dictionaries"""
     data = []
-    with open(datafile, "rb") as f:
-        for line in f:
-            print line
+    delimiter = ","
+    with open(datafile, "r") as file:
+        header = file.readline().split(delimiter)
+        line_counter = 0
+        for line in file:
+            if line_counter == 10:
+                break
+
+            fields = line.split(delimiter)
+            register = {}
+            for i, value in enumerate(fields):
+                register[header[i].strip()] = value.strip()
+
+            data.append(register)
+            line_counter += 1
 
     return data
 
 
 def test():
+    """test   parse_file """
     # a simple test of your implemetation
     datafile = os.path.join(DATADIR, DATAFILE)
-    d = parse_file(datafile)
-    firstline = {'Title': 'Please Please Me', 'UK Chart Position': '1', 'Label': 'Parlophone(UK)', 'Released': '22 March 1963', 'US Chart Position': '-', 'RIAA Certification': 'Platinum', 'BPI Certification': 'Gold'}
-    tenthline = {'Title': '', 'UK Chart Position': '1', 'Label': 'Parlophone(UK)', 'Released': '10 July 1964', 'US Chart Position': '-', 'RIAA Certification': '', 'BPI Certification': 'Gold'}
+    data = parse_file(datafile)
+    firstline = {'Title': 'Please Please Me', 'UK Chart Position': '1',
+                 'Label': 'Parlophone(UK)', 'Released': '22 March 1963', 'US Chart Position': '-', 'RIAA Certification': 'Platinum', 'BPI Certification': 'Gold'}
+    tenthline = {'Title': '', 'UK Chart Position': '1',
+                 'Label': 'Parlophone(UK)', 'Released': '10 July 1964', 'US Chart Position': '-', 'RIAA Certification': '', 'BPI Certification': 'Gold'}
 
-    assert d[0] == firstline
-    assert d[9] == tenthline
+    assert data[0] == firstline
+    assert data[9] == tenthline
 
-    
+
 test()
