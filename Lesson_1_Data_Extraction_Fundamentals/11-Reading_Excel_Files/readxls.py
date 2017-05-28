@@ -26,13 +26,13 @@ def parse_file(datafile):
     data = [[sheet.cell_value(r, col) for col in range(sheet.ncols)]
             for r in range(sheet.nrows)]
 
-    cv = sheet.col_values(1, start_rowx=1, end_rowx=None)
+    column_values = sheet.col_values(1, start_rowx=1, end_rowx=None)
 
-    maxval = max(cv)
-    minval = min(cv)
+    maxval = max(column_values)
+    minval = min(column_values)
 
-    maxpos = cv.index(maxval) + 1
-    minpos = cv.index(minval) + 1
+    maxpos = column_values.index(maxval) + 1
+    minpos = column_values.index(minval) + 1
 
     maxtime = sheet.cell_value(maxpos, 0)
     realtime = xlrd.xldate_as_tuple(maxtime, 0)
@@ -44,7 +44,7 @@ def parse_file(datafile):
         'maxvalue': maxval,
         'mintime': realmintime,
         'minvalue': minval,
-        'avgcoast': sum(cv) / float(len(cv))
+        'avgcoast': sum(column_values) / float(len(column_values))
     }
     return data
 
