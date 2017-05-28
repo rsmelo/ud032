@@ -21,10 +21,15 @@ DATAFILE = "745090.csv"
 
 
 def parse_file(datafile):
+    """This function read the data"""
     name = ""
     data = []
-    with open(datafile,'rb') as f:
-        pass
+    with open(datafile, 'r') as file:
+        csvdata = csv.reader(file)
+        name = next(csvdata)[1]
+        next(csvdata)
+        for row in csvdata:
+            data.append(row)
     # Do not change the line below
     return (name, data)
 
